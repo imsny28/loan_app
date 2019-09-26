@@ -1,0 +1,22 @@
+<div class="ui four column doubling stackable grid container">
+  <h2>Users</h2>
+  <hr/>
+  <table class="ui  celled right aligned table visible">
+    <thead>
+      <tr>
+        <% @fields.each do |field|  %>
+        <th class="left aligned"><%= field.humanize %></th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <%  @users.each do |user|  %>
+          <%  @fields.each do |field| %>
+          <td class="left aligned"><%= user[field] %></td>
+          <% end %>
+        <% end %>
+      </tr>
+    </tbody>
+  </table>
+</div>
