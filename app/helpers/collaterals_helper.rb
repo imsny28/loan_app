@@ -1,0 +1,2 @@
+module CollateralsHelper
+end
