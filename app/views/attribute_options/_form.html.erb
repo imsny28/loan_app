@@ -1,0 +1,86 @@
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+<%#= javascript_include_tag 'https://cdn.jsdelivr.net/npm/vue' %>
+
+<%= form_for @attribute_option do |f| %>
+  <div class="ui form">
+
+
+      <div class="two fields">
+        <div class="field">
+          <%= f.label :name %>
+          <%= f.text_field :name, class: "form-control" %>
+          <%#= error_for @attribute_option, :name %>
+        </div>
+        <div class="field">
+          <%= f.label :display_name %>
+          <%= f.text_field :display_name, class: "form-control" %>
+          <%#= error_for @attribute_option, :display_name %>
+        </div>
+      </div>
+
+  </div>
+  <div class="row mt-3" id="attribute_option_values">
+    <div class="col-md-6 offset-3 order-md-1">
+      <h4>
+        Attribute Option Values
+        <button type="button" v-on:click="addNewOptionValue()" class="ui green button">Add Value</button>
+      </h4>
+      <hr class="mb-4"/>
+      <div class="ui form">
+        <!-- <option>_value{":option_values" => "option_values"}</option> -->
+        <attribute-option-value
+          :option_values="option_values"
+        ></attribute-option-value>
+      </div>
+    </div>
+  </div>
+  <div class="ui form">
+    <div class="field">
+      <button class="ui green button">Save Attribute Option</button>
+    </div>
+  </div>
+<% end %>
+<script>
+  var attribute_option_values = <%= raw @attribute_option.attribute_option_values.to_json %>
+
+  $(function(){
+    var attributeOptionValue = {
+      props: {
+        option_values: Array
+      },
+      template: `
+        <div>
+          <template v-for="(option_value, index) in option_values">
+            <div class="two fields">
+              <input type="hidden" :value=option_value.id :name="'attribute_option[attribute_option_values_attributes]['+index+'][id]'" :id="'attribute_option_attribute_option_values_attributes_'+index+'_id'">
+              <div class="field">
+                <label :for="'attribute_option_attribute_option_values_attributes_'+index+'_name'">Name</label>
+                <input type="text" :value=option_value.name :name="'attribute_option[attribute_option_values_attributes]['+index+'][name]'" :id="'attribute_option_attribute_option_values_attributes_'+index+'_name'" class="form-control">
+              </div>
+              <div class="field">
+                <label :for="'attribute_option_attribute_option_values_attributes_'+index+'_display_name'">Display name</label>
+                <input type="text" :value=option_value.display_name :name="'attribute_option[attribute_option_values_attributes]['+index+'][display_name]'" :id="'attribute_option_attribute_option_values_attributes_'+index+'_display_name'" class="form-control">
+              </div>
+            </div>
+          </template>
+        </div>
+      `
+    };
+
+    var option_form = new Vue({
+      components: {
+      'attribute-option-value': attributeOptionValue
+      },
+      el: '#attribute_option_values',
+      data: {
+        option_values: attribute_option_values
+      },
+      methods: {
+        addNewOptionValue: function(){
+          var key = Math.random();
+          this.option_values.push({id: '', name: '', display_name: '', key: key})
+        },
+      }
+    })
+  })
+</script>
