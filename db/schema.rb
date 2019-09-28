@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_28_074323) do
+ActiveRecord::Schema.define(version: 2019_09_28_092014) do
 
   create_table "attribute_option_values", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
@@ -21,10 +21,31 @@ ActiveRecord::Schema.define(version: 2019_09_28_074323) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "attribute_option_values_collaterals", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "collateral_id", null: false
+    t.bigint "attribute_option_value_id", null: false
+    t.index ["attribute_option_value_id", "collateral_id"], name: "idx_collateral_id_onattribute_option_value_id", unique: true
+    t.index ["collateral_id", "attribute_option_value_id"], name: "idx_collateral_id_on_attribute_option_value_id", unique: true
+  end
+
   create_table "attribute_options", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
     t.string "display_name"
     t.boolean "archived", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "attribute_options_collaterals", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "collateral_id", null: false
+    t.bigint "attribute_option_id", null: false
+    t.index ["attribute_option_id", "collateral_id"], name: "idx_collateral_id_onattribute_option_id", unique: true
+    t.index ["collateral_id", "attribute_option_id"], name: "idx_collateral_id_on_attribute_option_id", unique: true
+  end
+
+  create_table "collateral_attribute_options", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "collateral_id"
+    t.integer "attribute_option_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
