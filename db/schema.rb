@@ -16,6 +16,7 @@ ActiveRecord::Schema.define(version: 2019_09_26_005756) do
     t.string "name"
     t.string "display_name"
     t.integer "attribute_option_id"
+    t.boolean "archived", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -23,6 +24,7 @@ ActiveRecord::Schema.define(version: 2019_09_26_005756) do
   create_table "attribute_options", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
     t.string "display_name"
+    t.boolean "archived", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

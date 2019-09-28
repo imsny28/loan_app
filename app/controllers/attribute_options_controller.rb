@@ -53,21 +53,21 @@ class AttributeOptionsController < ApplicationController
   end
 
   def destroy
+    @attribute_option = AttributeOption.find_by(id: params[:id])
     if params[:archive]
       if @attribute_option.archived
         @attribute_option.archived = false
-        msg = "#{current_entity.label} unarchived successfully."
+        msg = "#{@attribute_option.display_name} unarchived successfully."
       else
-        @option.archived = true
-        msg = "#{current_entity.label} archived successfully."
+        @attribute_option.archived = true
+        msg = "#{@attribute_option.display_name} archived successfully."
       end
-      @option.updated_by = current_user.id
-      @option.save
+      @attribute_option.save
     else
-      msg = "#{current_entity.label} deleted successfully."
-      @option.destroy
+      msg = "#{@attribute_option.display_name} deleted successfully."
+      @attribute_option.destroy
     end
-    success_response_to_delete entity_options_path, msg
+    success_response_to_delete attribute_options_path, msg
   end
 
   private

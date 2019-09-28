@@ -3,8 +3,6 @@
 
 <%= form_for @attribute_option do |f| %>
   <div class="ui form">
-
-
       <div class="two fields">
         <div class="field">
           <%= f.label :name %>
@@ -78,6 +76,7 @@
       methods: {
         addNewOptionValue: function(){
           var key = Math.random();
+
           this.option_values.push({id: '', name: '', display_name: '', key: key})
         },
       }

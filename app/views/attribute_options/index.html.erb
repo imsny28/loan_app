@@ -8,27 +8,36 @@
         <%= field %>
       </th>
     <% end %>
-    <th></th>
+    <th class="ui center aligned">Actions</th>
   </tr>
 </thead>
   <tbody>
     <% @attribute_options.each do |obj| %>
-      <tr>
-        <% AttributeOption.new.attributes.keys.sort.each do |field| %>
-          <td>
-            <%= obj[field] %>
+      <% if !obj.archived %>
+        <tr>
+          <% AttributeOption.new.attributes.keys.sort.each do |field| %>
+            <td>
+              <%= obj[field] %>
+            </td>
+          <% end %>
+          <td class="ui center aligned">
+            <%= link_to edit_attribute_option_path(obj.id) do %>
+              <i class="edit icon"></i>
+            <% end %>
+            <%= link_to attribute_option_path(id: obj.id, archive: true), method: :delete, data: {confirm: 'Are you sure?'} do %>
+              <i class="archive icon"></i>
+            <% end %>
+            <%= link_to attribute_option_path(obj.id), method: :delete, data: {confirm: 'Are you sure?'} do %>
+              <i class="trash icon"></i>
+            <% end %>
           </td>
-        <% end %>
-          <td>
-            <i class="edit icon"></i>
-          </td>
-      </tr>
+        </tr>
+      <% end %>
     <% end %>
-
   </tbody>
   <tfoot>
     <tr>
-      <th colspan="5">
+      <th colspan="7">
         <div class="ui right floated pagination menu">
           <a class="icon item">
             <i class="left chevron icon"></i>
