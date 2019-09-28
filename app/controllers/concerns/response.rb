@@ -45,7 +45,7 @@ module Response
 
   def failure_response_to_post obj, location=nil, status = :unprocessable_entity
     respond_to do |format|
-      format.html { redirect_to location }
+      format.html { render location}
       format.json { render json: obj, status: status }
       format.xml { render xml: obj, status: status }
     end

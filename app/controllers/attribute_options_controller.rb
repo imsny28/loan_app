@@ -34,7 +34,7 @@ class AttributeOptionsController < ApplicationController
       success_response_to_post @attribute_option, attribute_options_path, "Attribute Option created successfully."
 
     else
-      failure_response_to_post @attribute_option.errors, :new
+      failure_response_to_post @attribute_option.errors, new_attribute_option_path
     end
   end
 
@@ -72,6 +72,6 @@ class AttributeOptionsController < ApplicationController
 
   private
   def attribute_option_params
-    params.require(:attribute_option).permit(:name, :display_name, attribute_option_values_attributes:[:id, :name, :display_name])
+    params.require(:attribute_option).permit(:name, :display_name, attribute_option_values_attributes:[:id, :name, :display_name, :archived])
   end
 end

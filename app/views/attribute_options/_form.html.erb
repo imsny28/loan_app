@@ -7,12 +7,11 @@
         <div class="field">
           <%= f.label :name %>
           <%= f.text_field :name, class: "form-control" %>
-          <%#= error_for @attribute_option, :name %>
+          <%= error_for @attribute_option, :name %>
         </div>
         <div class="field">
           <%= f.label :display_name %>
           <%= f.text_field :display_name, class: "form-control" %>
-          <%#= error_for @attribute_option, :display_name %>
         </div>
       </div>
 
@@ -25,7 +24,6 @@
       </h4>
       <hr class="mb-4"/>
       <div class="ui form">
-        <!-- <option>_value{":option_values" => "option_values"}</option> -->
         <attribute-option-value
           :option_values="option_values"
         ></attribute-option-value>
@@ -38,26 +36,45 @@
     </div>
   </div>
 <% end %>
+
 <script>
   var attribute_option_values = <%= raw @attribute_option.attribute_option_values.to_json %>
-
   $(function(){
     var attributeOptionValue = {
       props: {
         option_values: Array
       },
+      methods: {
+        setArchive: function(index){
+          this.option_values[index].archived = !this.option_values[index].archived;
+        },
+        changeName: function(index, event) {
+          this.option_values[index].name = event.target.value;
+        },
+        changeDisplayName: function(index, event) {
+          this.option_values[index].display_name = event.target.value;
+        }
+      },
       template: `
         <div>
           <template v-for="(option_value, index) in option_values">
-            <div class="two fields">
-              <input type="hidden" :value=option_value.id :name="'attribute_option[attribute_option_values_attributes]['+index+'][id]'" :id="'attribute_option_attribute_option_values_attributes_'+index+'_id'">
-              <div class="field">
-                <label :for="'attribute_option_attribute_option_values_attributes_'+index+'_name'">Name</label>
-                <input type="text" :value=option_value.name :name="'attribute_option[attribute_option_values_attributes]['+index+'][name]'" :id="'attribute_option_attribute_option_values_attributes_'+index+'_name'" class="form-control">
-              </div>
-              <div class="field">
-                <label :for="'attribute_option_attribute_option_values_attributes_'+index+'_display_name'">Display name</label>
-                <input type="text" :value=option_value.display_name :name="'attribute_option[attribute_option_values_attributes]['+index+'][display_name]'" :id="'attribute_option_attribute_option_values_attributes_'+index+'_display_name'" class="form-control">
+            <input type="hidden" :value=option_value.id :name="'attribute_option[attribute_option_values_attributes]['+index+'][id]'" :id="'attribute_option_attribute_option_values_attributes_'+index+'_id'">
+            <input type="hidden" :value=option_value.archived :name="'attribute_option[attribute_option_values_attributes]['+index+'][archived]'" :id="'attribute_option_attribute_option_values_attributes_'+index+'_archived'">
+            <div class="ui form"  v-if="option_value.archived === false">
+              <div class="three fields">
+
+                <div class="twelve wide field">
+                  <label :for="'attribute_option_attribute_option_values_attributes_'+index+'_name'">Name</label>
+                 <input :value=option_value.name :name="'attribute_option[attribute_option_values_attributes]['+index+'][name]'" :id="'attribute_option_attribute_option_values_attributes_'+index+'_name'" v-on:change="changeName(index, $event)">
+                </div>
+                <div class="twelve wide field">
+                  <label :for="'attribute_option_attribute_option_values_attributes_'+index+'_display_name'">Display name</label>
+                  <input type="text" :value=option_value.display_name :name="'attribute_option[attribute_option_values_attributes]['+index+'][display_name]'" :id="'attribute_option_attribute_option_values_attributes_'+index+'_display_name'" class="form-control" v-on:change="changeDisplayName(index, $event)">
+                </div>
+                <div class="one wide field">
+                  <br>
+                  <a href="javascript:void(0)" v-on:click=setArchive(index)><i class="archive icon"></i></a>
+                </div>
               </div>
             </div>
           </template>
@@ -76,8 +93,7 @@
       methods: {
         addNewOptionValue: function(){
           var key = Math.random();
-
-          this.option_values.push({id: '', name: '', display_name: '', key: key})
+          this.option_values.push({id: '', name: '', display_name: '', archived: false, key: key})
         },
       }
     })

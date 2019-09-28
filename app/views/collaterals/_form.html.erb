@@ -1,0 +1,27 @@
+<%= form_for @collateral do |f| %>
+  <div class="ui form">
+      <div class="two fields">
+        <div class="field">
+          <%= f.label :name %>
+          <%= f.text_field :name, class: "form-control" %>
+          <%= error_for @collateral, :name %>
+        </div>
+        <div class="field">
+          <%= f.label :display_name %>
+          <%= f.text_field :display_name, class: "form-control" %>
+        </div>
+      </div>
+      <div class="two fields">
+        <div class="field">
+          <%= f.label :cost_price %>
+          <%= f.text_field :cost_price, placeholder: "$" %>
+        </div>
+      </div>
+
+  </div>
+  <div class="ui form">
+    <div class="field">
+      <button class="ui green button">Save Collateral</button>
+    </div>
+  </div>
+<% end %>

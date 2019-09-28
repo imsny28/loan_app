@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_26_005756) do
+ActiveRecord::Schema.define(version: 2019_09_28_074323) do
 
   create_table "attribute_option_values", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
@@ -25,6 +25,16 @@ ActiveRecord::Schema.define(version: 2019_09_26_005756) do
     t.string "name"
     t.string "display_name"
     t.boolean "archived", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "collaterals", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+    t.string "display_name"
+    t.boolean "archived", default: false
+    t.decimal "cost_price", precision: 10
+    t.integer "collateral_category_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
