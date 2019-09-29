@@ -15,6 +15,12 @@ class AttributeOptionsController < ApplicationController
     # @per_page = session[:per_page_value]
     # @attribute_options = @attribute_options.page(params[:page]).per(@per_page)
     @attribute_options = AttributeOption.all
+
+    if CUSTOM_FIELDS["attribute_options"].present?
+      @fields = CUSTOM_FIELDS["attribute_options"]
+    else
+      @fields = AttributeOption.new.attributes.keys.sort
+    end
   end
 
   def new

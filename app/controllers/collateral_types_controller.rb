@@ -3,6 +3,12 @@ class CollateralTypesController < ApplicationController
 
   def index
     @collateral_types =  CollateralType.all
+
+    if CUSTOM_FIELDS["collateral_types"].present?
+      @fields = CUSTOM_FIELDS["collateral_types"]
+    else
+      @fields = CollateralType.new.attributes.keys.sort
+    end
   end
 
   def create

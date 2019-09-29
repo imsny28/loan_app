@@ -3,7 +3,7 @@
 <table class="ui celled padded table">
 <thead>
   <tr>
-    <% AttributeOption.new.attributes.keys.sort.each do |field| %>
+    <% @fields.each do |field| %>
       <th>
         <%= field %>
       </th>
@@ -15,7 +15,7 @@
     <% @attribute_options.each do |obj| %>
       <% if !obj.archived %>
         <tr>
-          <% AttributeOption.new.attributes.keys.sort.each do |field| %>
+          <% @fields.each do |field| %>
             <td>
               <%= obj[field] %>
             </td>

@@ -4,7 +4,7 @@
 <table class="ui celled padded table">
 <thead>
   <tr>
-    <% Customer.new.attributes.keys.sort.each do |field| %>
+    <% @fields.each do |field| %>
       <th>
         <%= field %>
       </th>
@@ -16,7 +16,7 @@
     <% @customers.each do |obj| %>
       <% if !obj.archived %>
         <tr>
-          <% Customer.new.attributes.keys.sort.each do |field| %>
+          <% @fields.each do |field| %>
             <td>
               <%= obj[field] %>
             </td>

@@ -3,6 +3,12 @@ class CustomersController < ApplicationController
 
   def index
     @customers = Customer.all
+
+    if CUSTOM_FIELDS["customers"].present?
+      @fields = CUSTOM_FIELDS["customers"]
+    else
+      @fields = Customer.new.attributes.keys.sort
+    end
   end
 
   def new

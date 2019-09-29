@@ -4,7 +4,7 @@
 <table class="ui celled padded table">
 <thead>
   <tr>
-    <% Collateral.new.attributes.keys.sort.each do |field| %>
+    <% @fields.each do |field| %>
       <th>
         <%= field %>
       </th>
@@ -16,7 +16,7 @@
     <% @collateral.each do |obj| %>
       <% if !obj.archived %>
         <tr>
-          <% Collateral.new.attributes.keys.sort.each do |field| %>
+          <% @fields.each do |field| %>
             <td>
               <%= obj[field] %>
             </td>

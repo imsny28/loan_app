@@ -1,0 +1,23 @@
+collaterals:
+  - "id"
+  - "name"
+  - "display_name"
+  - "created_at"
+
+attribute_options:
+  - "id"
+  - "name"
+  - "display_name"
+  - "created_at"
+
+collateral_types:
+  - "id"
+  - "name"
+  - "display_name"
+  - "created_at"
+
+customers:
+  - "id"
+  - "first_name"
+  - "last_name"
+  - "created_at"

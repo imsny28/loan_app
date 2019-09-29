@@ -3,7 +3,7 @@
 <table class="ui celled padded table">
 <thead>
   <tr>
-    <% CollateralType.new.attributes.keys.sort.each do |field| %>
+    <% @fields.each do |field| %>
       <th>
         <%= field %>
       </th>
@@ -15,7 +15,7 @@
     <% @collateral_types.each do |obj| %>
       <% if !obj.archived %>
         <tr>
-          <% CollateralType.new.attributes.keys.sort.each do |field| %>
+          <% @fields.each do |field| %>
             <td>
               <%= obj[field] %>
             </td>
@@ -42,7 +42,7 @@
           <a class="icon item">
             <i class="left chevron icon"></i>
           </a>
-          
+
           <a class="item">1</a>
           <a class="item">2</a>
           <a class="item">3</a>
