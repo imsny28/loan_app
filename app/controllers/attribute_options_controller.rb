@@ -10,12 +10,13 @@ class AttributeOptionsController < ApplicationController
     # if params[:char].present?
     #   @attribute_options = @attribute_options.where("LOWER(first_name) like ? OR LOWER(first_name) like ?", params[:char].to_s.downcase+'%', params[:char].to_s.downcase+'%')
     # end
-    # session[:per_page_value] ||= 25
-    # session[:per_page_value] = params[:per_page].to_i if params[:per_page].present?
-    # @per_page = session[:per_page_value]
-    # @attribute_options = @attribute_options.page(params[:page]).per(@per_page)
-    @attribute_options = AttributeOption.all
+    session[:per_page_value] ||= 15
+    session[:per_page_value] = params[:per_page].to_i if params[:per_page].present?
+    @per_page = session[:per_page_value]
 
+    @attribute_options = AttributeOption.where(archived: false)
+    @attribute_options = @attribute_options.page(params[:page]).per(@per_page)
+    
     if CUSTOM_FIELDS["attribute_options"].present?
       @fields = CUSTOM_FIELDS["attribute_options"]
     else

@@ -2,7 +2,12 @@ class CustomersController < ApplicationController
   include Response
 
   def index
-    @customers = Customer.all
+    session[:per_page_value] ||= 15
+    session[:per_page_value] = params[:per_page].to_i if params[:per_page].present?
+    @per_page = session[:per_page_value]
+
+    @customers = Customer.where(archived: false)
+    @customers = @customers.page(params[:page]).per(@per_page)
 
     if CUSTOM_FIELDS["customers"].present?
       @fields = CUSTOM_FIELDS["customers"]

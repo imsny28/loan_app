@@ -2,7 +2,12 @@ class CollateralsController < ApplicationController
   include Response
 
   def index
-    @collateral = Collateral.all
+    session[:per_page_value] ||= 15
+    session[:per_page_value] = params[:per_page].to_i if params[:per_page].present?
+    @per_page = session[:per_page_value]
+
+    @collaterals = Collateral.where(archived: false)
+    @collaterals = @collaterals.page(params[:page]).per(@per_page)
 
     if CUSTOM_FIELDS["collaterals"].present?
       @fields = CUSTOM_FIELDS["collaterals"]
