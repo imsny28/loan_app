@@ -30,9 +30,7 @@ class AttributeOptionsController < ApplicationController
   def create
     @attribute_option = AttributeOption.new(attribute_option_params)
     if @attribute_option.save
-      # success_response_to_post @attribute_option, attribute_options_path, "Attribute Option created successfully."
       success_response_to_post @attribute_option, attribute_options_path, "Attribute Option created successfully."
-
     else
       failure_response_to_post @attribute_option.errors, new_attribute_option_path
     end

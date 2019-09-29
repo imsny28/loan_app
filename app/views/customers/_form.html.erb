@@ -1,0 +1,99 @@
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+<%#= javascript_include_tag 'https://cdn.jsdelivr.net/npm/vue' %>
+
+<%= form_for @customer do |f| %>
+  <div class="ui form">
+    <div class="two fields">
+      <div class="required field">
+        <%= f.label :first_name %>
+        <%= f.text_field :first_name %>
+        <%= error_for @customer, :first_name %>
+      </div>
+      <div class="required field">
+        <%= f.label :last_name %>
+        <%= f.text_field :last_name %>
+        <%= error_for @customer, :last_name %>
+      </div>
+    </div>
+
+    <div class="two fields">
+      <div class="required field">
+        <%= f.label :email %>
+        <%= f.text_field :email %>
+        <%= error_for @customer, :email %>
+      </div>
+      <div class="required field">
+        <%= f.label :phone %>
+        <%= f.text_field :phone %>
+        <%= error_for @customer, :phone %>
+      </div>
+    </div>
+
+    <div class="two fields">
+      <div class="required field">
+        <%= f.label :ssn %>
+        <%= f.text_field :ssn %>
+        <%= error_for @customer, :ssn %>
+      </div>
+      <div class="field">
+        <%= f.label :apartment %>
+        <%= f.text_field :apartment %>
+      </div>
+    </div>
+
+    <div class="two fields">
+      <div class="required field">
+        <%= f.label :address %>
+        <%= f.text_field :address %>
+        <%= error_for @customer, :address %>
+      </div>
+
+      <div class="field">
+        <%= f.label :zip_code %>
+        <%= f.text_field :zip_code %>
+        <%= error_for @customer, :zip_code %>
+      </div>
+    </div>
+
+    <div class="two fields">
+      <div class="field">
+        <%= f.label :state %>
+        <%= f.text_field :state %>
+        <%#= error_for @collateral_type, :first_name %>
+      </div>
+      <div class="field">
+        <%= f.label :city %>
+        <%= f.text_field :city %>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row mt-3" id="attribute_option_values">
+    <div class="col-md-6 offset-3 order-md-1">
+      <hr/>
+      <h4>Account</h4>
+      <%= f.fields_for :account, Account.new do |ff| %>
+      <div class="ui form">
+        <div class="two fields">
+          <div class="field">
+            <%= ff.label :rountine_number %>
+             <%= ff.text_field :rountine_number %>
+          </div>
+          <div class="field">
+            <%= ff.label :account_number %>
+            <%= ff.text_field :account_number %>
+          </div>
+        </div>
+      </div>
+      <% end %>
+    </div>
+  </div>
+
+
+  <div class="ui form">
+    <div class="field">
+      <button class="ui green button">Save Collateral Type</button>
+    </div>
+  </div>
+<% end %>

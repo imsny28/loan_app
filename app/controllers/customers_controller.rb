@@ -1,11 +1,71 @@
 class CustomersController < ApplicationController
+  include Response
+
   def index
     @customers = Customer.all
   end
+
+  def new
+    @customer = Customer.new
+    @customer.build_account
+
+    # @attribute_options = AttributeOption.where(archived: false).includes(:attribute_option_values)
+  end
+
+  def create
+    @customer = Customer.new(customer_params)
+    if @customer.save
+      success_response_to_post @customer, customers_path, "Customer created successfully."
+    else
+      failure_response_to_post @customer.errors, new_attribute_option_path
+    end
+  end
+
+  def edit
+    @customer = Customer.find_by(id: params[:id])
+  end
+
+  def show
+    @customer = Customer.find_by(id: params[:id])
+    response_to_get @customer
+  end
+
+  def update
+    @customer = Customer.find_by(id: params[:id])
+    @customer.assign_attributes(customer_params)
+    debugger
+    if @customer.save
+      success_response_to_patch customers_path, "Customer updated successfully."
+    else
+      failure_response_to_post @customer.errors, :edit
+    end
+  end
+
+  def destroy
+    @customer = Customer.find_by(id: params[:id])
+    if params[:archive]
+      if @customer.archived
+        @customer.archived = false
+        msg = "#{@customer.display_name} unarchived successfully."
+      else
+        @customer.archived = true
+        msg = "#{@customer.display_name} archived successfully."
+      end
+      @customer.save
+    else
+      msg = "#{@customer.display_name} deleted successfully."
+      @customer.destroy
+    end
+    success_response_to_delete customers_path, msg
+  end
+
+  private
+
+  def customer_params
+    params.require(:customer).permit(
+       :first_name, :last_name, :email, :phone,
+       :address, :apartment, :state, :city, :zip_code, :ssn,
+       account_attributes: [:rountine_number, :account_number]
+    )
+  end
 end
-
-
-
-# rails generate model AttributeOption name:string display_name:string
-
-# rails generate model AttributeOptionValue name:string display_name:string attribute_option_id:integer
