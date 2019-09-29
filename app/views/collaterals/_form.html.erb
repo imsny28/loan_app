@@ -105,10 +105,16 @@ var propertiesOption = {
     },
     remove(index) {
       this.$emit("listenerChild", index);
+    },
+    dropdown(){
+      $(document).ready(function(){
+        $('.ui.dropdown').dropdown();
+      });
     }
   },
   mounted() {
-    this.init()
+    this.init();
+    this.dropdown();
   },
   template:
   `
@@ -200,5 +206,4 @@ var page = new Vue({
     },
   }
 });
-
 </script>
