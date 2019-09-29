@@ -1,0 +1,36 @@
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+<%#= javascript_include_tag 'https://cdn.jsdelivr.net/npm/vue' %>
+
+<%= form_for @collateral_type do |f| %>
+  <div class="ui form">
+      <div class="two fields">
+        <div class="field">
+          <%= f.label :name %>
+          <%= f.text_field :name, class: "form-control" %>
+          <%= error_for @collateral_type, :name %>
+        </div>
+        <div class="field">
+          <%= f.label :display_name %>
+          <%= f.text_field :display_name, class: "form-control" %>
+        </div>
+      </div>
+  </div>
+  <div class="ui form">
+    <div class="two fields">
+      <div class="field">
+        <%= f.label "Collaterals" %>
+        <%= f.select(
+          :collateral_ids,
+          Collateral.all.collect {|p| [ p.display_name, p.id ] if p.collateral_type_id.nil? },
+          { prompt: "Please select"},
+          { multiple: true, class: 'ui fluid search dropdown' }
+        )%>
+      </div>
+    </div>
+  </div>
+  <div class="ui form">
+    <div class="field">
+      <button class="ui green button">Save Collateral Type</button>
+    </div>
+  </div>
+<% end %>

@@ -13,5 +13,6 @@
 //= require jquery
 //= require semantic-ui
 //= require rails-ujs
+//= require custom
 //= require activestorage
 //= require_tree .

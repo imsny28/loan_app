@@ -7,6 +7,7 @@ class CollateralsController < ApplicationController
 
   def new
     @collateral = Collateral.new
+    @attribute_options = AttributeOption.where(archived: false).includes(:attribute_option_values)
   end
 
   def create
@@ -25,6 +26,16 @@ class CollateralsController < ApplicationController
   def show
     @collateral = Collateral.find_by(id: params[:id])
     response_to_get @collateral
+  end
+
+  def update
+    @attribute_option = Collateral.find_by(id: params[:id])
+    @attribute_option.assign_attributes(collateral_params)
+    if @attribute_option.save
+      success_response_to_patch collaterals_path, "Attribute Option updated successfully."
+    else
+      failure_response_to_post @collateral.errors, :edit
+    end
   end
 
   def destroy
@@ -47,6 +58,6 @@ class CollateralsController < ApplicationController
 
   private
   def collateral_params
-    params.require(:collateral).permit(:name, :display_name, :cost_price)
+    params.require(:collateral).permit(:name, :display_name, :cost_price, attribute_option_ids: [], attribute_option_value_ids: [])
   end
 end

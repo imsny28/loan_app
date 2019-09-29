@@ -6,6 +6,7 @@ class CreateCollaterals < ActiveRecord::Migration[5.2]
       t.boolean :archived, default: false
       t.decimal :cost_price
       t.integer :collateral_category_id
+      t.integer :collateral_type_id
 
       t.timestamps
     end

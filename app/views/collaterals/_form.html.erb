@@ -1,27 +1,204 @@
-<%= form_for @collateral do |f| %>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.15/lodash.core.min.js"></script>
+<%= form_for(@collateral, html:{mulipart: true}) do |f| %>
   <div class="ui form">
-      <div class="two fields">
-        <div class="field">
-          <%= f.label :name %>
-          <%= f.text_field :name, class: "form-control" %>
-          <%= error_for @collateral, :name %>
-        </div>
-        <div class="field">
-          <%= f.label :display_name %>
-          <%= f.text_field :display_name, class: "form-control" %>
-        </div>
+    <div class="two fields">
+      <div class="field">
+        <%= f.label :name %>
+        <%= f.text_field :name, class: "form-control" %>
+        <%= error_for @collateral, :name %>
       </div>
-      <div class="two fields">
-        <div class="field">
-          <%= f.label :cost_price %>
-          <%= f.text_field :cost_price, placeholder: "$" %>
-        </div>
+      <div class="field">
+        <%= f.label :display_name %>
+        <%= f.text_field :display_name, class: "form-control" %>
+      </div>
+    </div>
+    <div class="two fields">
+      <div class="field">
+        <%= f.label :cost_price %>
+        <%= f.text_field :cost_price, placeholder: "$" %>
       </div>
 
+      <div class="field">
+        <%= f.label "Collateral Type" %>
+        <%= f.select(
+          :collateral_type_id,
+          CollateralType.all.collect {|p| [ p.display_name, p.id ] },
+          { prompt: "Please select"},
+          { class: 'ui  dropdown' }
+        )%>
+      </div>
+    </div>
   </div>
+
+
+  <div id="collateral_form">
+    <div class="row mt-3" id="attribute_option_values">
+      <div class="col-md-6 offset-3 order-md-1">
+        <h4>
+          Properties
+          <button type="button" v-on:click="addNewProperty()" class="ui green button">Add</button>
+        </h4>
+        <hr class="mb-4"/>
+        <div class="ui form">
+            <collateral-properties
+              :collateral = "collateral"
+              :properties_options="properties_options"
+              :attribute_options="attribute_options"
+            ></collateral-properties>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="ui form">
     <div class="field">
       <button class="ui green button">Save Collateral</button>
     </div>
   </div>
 <% end %>
+
+<script>
+var collateral = <%= raw @collateral.to_json.html_safe %>;
+var attribute_options = <%= raw AttributeOption.where(archived: false).to_json %>;
+var attribute_option_values = <%= raw fetch_attribute_option_values.to_json %>;
+var properties_options = <%= raw properties_options @collateral  %>
+
+collateral.attribute_option_ids = <%= raw @collateral.attribute_option_ids.to_json.html_safe %> || [];
+collateral.attribute_option_value_ids = <%= raw @collateral.attribute_option_value_ids.to_json.html_safe %> || [];
+
+attribute_options.forEach(function(attribute_option){
+  let array = attribute_option_values.filter(function(obj){
+    return obj.attribute_option_id === attribute_option.id;
+  });
+
+  attribute_option.attribute_option_values = array || [];
+});
+
+var propertiesOption = {
+  props: {
+    properties_option: Object,
+    attribute_options: Array,
+    properties_options: Array,
+    index: Number
+  },
+  data: function(){
+    return {
+      attribute_option_values: [],
+      attri_options: []
+    }
+  },
+  methods: {
+    getAttributeOptionValues(event) {
+      let id = parseInt(event.target.value);
+      let attribute_option = _.find(this.attribute_options, { id: id });
+      this.attribute_option_values = attribute_option.attribute_option_values;
+    },
+    init(){
+      console.log(this.properties_option);
+      if(this.properties_option.attribute_option_id != null) {
+        let attribute_option = _.find(this.attribute_options, { id: this.properties_option.attribute_option_id });
+        this.attribute_option_values = attribute_option.attribute_option_values;
+      } else {
+        this.attribute_option_values = this.attribute_options[0].attribute_option_values;
+      }
+    },
+    remove(index) {
+      this.$emit("listenerChild", index);
+    }
+  },
+  mounted() {
+    this.init()
+  },
+  template:
+  `
+    <div class="ui form">
+      <div class="three fields">
+        <div class="twelve wide field">
+          <select
+            class="ui dropdown"
+            @change="getAttributeOptionValues($event)"
+            name="collateral[attribute_option_ids][]"
+            v-model="properties_option.attribute_option_id"
+          >
+            <option v-for="attribute_option in attribute_options" v-bind:value="attribute_option.id" >{{ attribute_option.display_name }}</option>
+          </select>
+        </div>
+
+        <div class="twelve wide field">
+          <div class="field">
+            <select
+              class="ui dropdown"
+              name="collateral[attribute_option_value_ids][]"
+              v-model="properties_option.attribute_option_value_id"
+            >
+              <option v-for="attribute_option_value in attribute_option_values" v-bind:value="attribute_option_value.id" >{{ attribute_option_value.display_name }}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="one wide field">
+          <a href="javascript:void(0)"  v-on:click="remove(index)"><i class="minus circle icon"></i></a>
+        </div>
+      </div>
+    </div>
+  `
+}
+
+var collateralProperties = {
+  components: {
+  'properties-option': propertiesOption
+  },
+  props: {
+    attribute_options: Array,
+    properties_options: Array,
+    collateral: Object
+  },
+  methods: {
+    listenerChild(index) {
+      // this.properties_options = _.filter(this.properties_options, obj => (!_.isEqual(obj.id, 2)));
+      this.properties_options =_.filter(this.properties_options, (value, key)=> { return (key !== index) });
+      console.log(this.properties_options);
+    }
+  },
+  template:
+  `
+    <div>
+      <properties-option
+        v-for="(properties_option, index) in properties_options"
+        :key="properties_option.id"
+        :index="index"
+        :properties_option="properties_option"
+        :properties_options="properties_options"
+        :attribute_options="attribute_options"
+        v-on:listenerChild="listenerChild"
+      />
+    </div>
+
+  `
+}
+
+var page = new Vue({
+  el: "#collateral_form",
+  components: {
+  'collateral-properties': collateralProperties,
+  'properties-option': propertiesOption
+  },
+
+  data: {
+    collateral: collateral,
+    attribute_options: attribute_options,
+    properties_options: properties_options
+  },
+
+  methods: {
+    addNewProperty: function(){
+      this.properties_options.push({
+        attribute_option_id: null,
+        attribute_option_value_id: null
+      })
+    },
+  }
+});
+
+</script>
