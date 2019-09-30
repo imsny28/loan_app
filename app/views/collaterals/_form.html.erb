@@ -95,7 +95,6 @@ var propertiesOption = {
       this.attribute_option_values = attribute_option.attribute_option_values;
     },
     init(){
-      console.log(this.properties_option);
       if(this.properties_option.attribute_option_id != null) {
         let attribute_option = _.find(this.attribute_options, { id: this.properties_option.attribute_option_id });
         this.attribute_option_values = attribute_option.attribute_option_values;
