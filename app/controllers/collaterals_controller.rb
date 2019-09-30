@@ -69,6 +69,9 @@ class CollateralsController < ApplicationController
 
   private
   def collateral_params
-    params.require(:collateral).permit(:name, :display_name, :cost_price, attribute_option_ids: [], attribute_option_value_ids: [])
+    params.require(:collateral).permit(
+      :name, :display_name, :collertal_value, :cost_price,
+      attribute_option_ids: [], attribute_option_value_ids: []
+    )
   end
 end

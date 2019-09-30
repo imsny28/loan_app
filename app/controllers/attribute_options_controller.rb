@@ -2,7 +2,6 @@ class AttributeOptionsController < ApplicationController
   include Response
 
   def index
-    @attribute_options = AttributeOption
     # if params[:query].present? && params[:field].present?
     #   @attribute_options = @attribute_options.where("LOWER(#{params[:field]}::VARCHAR) like ?", '%'+params[:query].to_s.downcase+'%')
     # end
@@ -16,7 +15,7 @@ class AttributeOptionsController < ApplicationController
 
     @attribute_options = AttributeOption.where(archived: false)
     @attribute_options = @attribute_options.page(params[:page]).per(@per_page)
-    
+
     if CUSTOM_FIELDS["attribute_options"].present?
       @fields = CUSTOM_FIELDS["attribute_options"]
     else

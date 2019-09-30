@@ -1,22 +1,16 @@
 Rails.application.routes.draw do
 
-  get 'collateral_types/index'
-  get 'collateral_types/edit'
-  get 'collateral_types/new'
-  get 'attribute_options/index'
-  get 'collaterals/index'
   root 'dashboard#index'
   resources :users
   resources :customers
   resources :collaterals
   resources :attribute_options
   resources :collateral_types
-
+  resources :attachments
 
   namespace :api do
     namespace :v1 do
       resources :attribute_options
-
       resources :customers
     end
   end

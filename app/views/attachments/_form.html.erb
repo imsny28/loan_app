@@ -1,0 +1,20 @@
+<%= form_for(@attachment, html:{mulipart: true}) do |f| %>
+  <div class="ui form">
+    <div class="two fields">
+      <div class="field">
+        <%= f.label :name %>
+        <%= f.text_field :name %>
+        <%#= error_for @attachment, :name %>
+      </div>
+      <div class="field">
+        <%= f.label :image %>
+        <%= f.file_field :image %>
+      </div>
+    </div>
+  </div>
+  <div class="ui form">
+    <div class="field">
+      <button class="ui green button">Save Collateral</button>
+    </div>
+  </div>
+<% end %>

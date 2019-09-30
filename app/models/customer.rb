@@ -11,4 +11,8 @@ class Customer < ApplicationRecord
 
   has_one :account
   accepts_nested_attributes_for :account
+
+  has_many :car_images, class_name: "Attachment"
+  has_one :avatar, class_name: "Attachment"
+
 end

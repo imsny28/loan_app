@@ -1,0 +1,47 @@
+<h5>Attachments</h5>
+<%= link_to "New", new_attachment_path, class: "ui primary basic button" %>
+
+<table class="ui celled padded table">
+<thead>
+  <tr>
+    <% @fields.each do |field| %>
+      <th>
+        <%= field.humanize %>
+      </th>
+    <% end %>
+    <th class="ui center aligned">Actions</th>
+  </tr>
+</thead>
+  <tbody>
+    <% @attachments.each do |obj| %>
+      <% if !obj.archived %>
+        <tr>
+          <% @fields.each do |field| %>
+            <td>
+              <%= obj[field] %>
+            </td>
+          <% end %>
+          <td class="ui center aligned">
+            <%= link_to edit_attachment_path(obj.id) do %>
+              <i class="edit icon"></i>
+            <% end %>
+            <%= link_to attachment_path(id: obj.id, archive: true), method: :delete, data: {confirm: 'Are you sure?'} do %>
+              <i class="archive icon"></i>
+            <% end %>
+            <%= link_to attachment_path(obj.id), method: :delete, data: {confirm: 'Are you sure?'} do %>
+              <i class="trash icon"></i>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+  <tfoot>
+    <tr>
+      <th colspan="11">
+        <%= render 'shared/per_page' %>
+        <%= render 'shared/pagination', records: @attachments %>
+      </th>
+    </tr>
+  </tfoot>
+</table>
