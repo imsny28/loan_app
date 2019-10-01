@@ -28,6 +28,7 @@ class CustomersController < ApplicationController
     if @customer.save
       success_response_to_post @customer, customers_path, "Customer created successfully."
     else
+      debugger
       failure_response_to_post @customer.errors, new_attribute_option_path
     end
   end
@@ -44,7 +45,6 @@ class CustomersController < ApplicationController
   def update
     @customer = Customer.find_by(id: params[:id])
     @customer.assign_attributes(customer_params)
-    debugger
     if @customer.save
       success_response_to_patch customers_path, "Customer updated successfully."
     else
@@ -76,7 +76,8 @@ class CustomersController < ApplicationController
     params.require(:customer).permit(
        :first_name, :last_name, :email, :phone,
        :address, :apartment, :state, :city, :zip_code, :ssn,
-       account_attributes: [:rountine_number, :account_number]
+       account_attributes: [:rountine_number, :account_number],
+       #attachment_attributes: [:avatar]
     )
   end
 end

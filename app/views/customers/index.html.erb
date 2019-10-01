@@ -4,6 +4,7 @@
 <table class="ui celled padded table">
 <thead>
   <tr>
+    <th class="ui center aligned">Avatar</th>
     <% @fields.each do |field| %>
       <th>
         <%= field.humanize %>
@@ -16,7 +17,11 @@
     <% @customers.each do |obj| %>
       <% if !obj.archived %>
         <tr>
+          <td class="ui center aligned">
+            <%#= image_tag obj.attachment.avatar, class: "ui top aligned tiny image" %>
+          </td>
           <% @fields.each do |field| %>
+
             <td>
               <%= obj[field] %>
             </td>

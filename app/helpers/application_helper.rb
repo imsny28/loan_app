@@ -32,4 +32,35 @@ module ApplicationHelper
 
     properties.to_json
   end
+
+	def modified obj
+		obj.updated_at.nice
+	end
+
+	def created obj
+		obj.created.nice
+	end
+
+	def states country_code
+		country = ISO3166::Country.find_country_by_alpha2(country_code)
+		result = []
+		country.states.each do |k, v| result << { 'state_code' => k, 'state_name' => v.name } if v.name.present? end  if country.present?
+
+		result
+	end
+
+	def get_state_name country_code, state_code
+		states = states(country_code)
+		result = states.find{ |hsh| hsh['state_code'] == state_code }
+		result['state_name'] unless result.nil?
+	end
+
+	def get_country_state_hash array_of_countries
+		country_state_hash = []
+		array_of_countries.each do |a| country_state_hash << { :country_name => a, :state => states(a) } end
+		country_state_hash
+	end
 end
+
+
+rails generate model Loan amount:decimal currency:string status:string payoff: 

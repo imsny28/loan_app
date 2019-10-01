@@ -31,7 +31,7 @@
 
     <div class="two fields">
       <div class="required field">
-        <%= f.label :ssn %>
+        <%= f.label "SSN" %>
         <%= f.text_field :ssn %>
         <%= error_for @customer, :ssn %>
       </div>
@@ -69,7 +69,7 @@
 
   </div>
 
-  <div class="row mt-3" id="attribute_option_values">
+  <div class="row mt-3">
     <div class="col-md-6 offset-3 order-md-1">
       <hr/>
       <h4>Account</h4>
@@ -90,10 +90,27 @@
     </div>
   </div>
 
+  <div class="row mt-3">
+    <div class="col-md-6 offset-3 order-md-1">
+      <hr/>
+      <h4>Profile Image</h4>
+      <div class="ui form">
+        <div class="two fields">
+          <div class="field">
+            <%= f.fields_for :attachment, Attachment.new do |ff| %>
+              <%= ff.label :avatar %>
+              <%= ff.file_field :avatar %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 
   <div class="ui form">
     <div class="field">
-      <button class="ui green button">Save Collateral Type</button>
+      <button class="ui green button">Save</button>
     </div>
   </div>
 <% end %>
