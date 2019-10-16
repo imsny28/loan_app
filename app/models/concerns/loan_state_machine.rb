@@ -6,7 +6,8 @@ module LoanStateMachine
 
     aasm(:status) do
       state :cart, initial: true
-			state :placed, after_enter: :placed_line_item!
+			# state :placed, after_enter: :placed_line_item!
+			state :placed
 
 			event :loan_placed do
 				transitions from: :cart, to: :placed

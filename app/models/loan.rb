@@ -10,7 +10,10 @@ class Loan < ApplicationRecord
 	accepts_nested_attributes_for :line_item, allow_destroy: true
 
 	# serialize: :line_item
-
+	before_save do
+		debugger
+		self.loan_placed
+	end
 
 	# has_many :activities, as: :activitable
 

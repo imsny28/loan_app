@@ -142,8 +142,7 @@
 				    <!-- <div class="meta">2 days ago</div> -->
 				    <div class="description">
 							<div class="ui form">
-										<line-item></line-item>
-
+								<line-item></line-item>
 							</div>
 				    </div>
 				  </div>
@@ -254,7 +253,6 @@
 			},
 			template:
 			`
-
 				<div class="field">
 					<label>{{label}}: </label>
 					<select class="ui dropdown">
@@ -265,8 +263,6 @@
 						>{{ record.display_name }}</option>
 					</select>
 				</div>
-
-
 			`
 		}
 	  var lineItem = {
@@ -344,7 +340,7 @@
 								<select
 									class="ui dropdown"
 									@change="getCollateral($event)"
-									:name="'loan[line_item][custom_field][collateral_type]'"
+									:name="'loan[line_item][custom_field][collateral_type_id]'"
 								>
 								  <option value="">Please select</option>
 									<option
@@ -360,7 +356,7 @@
 								<select
 									class="ui dropdown"
 									@change="setCollateral($event)"
-									:name="'loan[line_item][name]'"
+									:name="'loan[line_item][collateral_id]'"
 								>
 								  <option value="">Please select</option>
 									<option

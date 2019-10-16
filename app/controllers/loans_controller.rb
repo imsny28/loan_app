@@ -41,11 +41,9 @@ class LoansController < ApplicationController
 		@loan.customer_id = 3
 		@loan.build_line_item(line_item_params)
 		if @loan.save
-			debugger
 			success_response_to_post @loan, loans_path, "loan created successfully."
 		else
 			# error
-			debugger
 		end
 	end
 
