@@ -28,7 +28,6 @@ class CustomersController < ApplicationController
     if @customer.save
       success_response_to_post @customer, customers_path, "Customer created successfully."
     else
-      debugger
       failure_response_to_post @customer.errors, new_attribute_option_path
     end
   end
@@ -39,6 +38,7 @@ class CustomersController < ApplicationController
 
   def show
     @customer = Customer.find_by(id: params[:id])
+		@activities = Activity.where(customer_id:  params[:id]).order("created_at DESC").group_by(&:created_at)
     response_to_get @customer
   end
 

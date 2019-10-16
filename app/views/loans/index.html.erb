@@ -1,10 +1,8 @@
-<h5>Collaterals</h5>
-<%= link_to "New", new_customer_path, class: "ui primary basic button" %>
-
+<h5>Loans</h5>
+<%= link_to "New", new_loan_path, class: "ui primary basic button" %>
 <table class="ui celled padded table">
 <thead>
   <tr>
-    <th class="ui center aligned">Avatar</th>
     <% @fields.each do |field| %>
       <th>
         <%= field.humanize %>
@@ -14,31 +12,22 @@
   </tr>
 </thead>
   <tbody>
-    <% @customers.each do |obj| %>
+    <% @loans.each do |obj| %>
       <% if !obj.archived %>
         <tr>
-          <td class="ui center aligned">
-            <%#= image_tag obj.attachment.avatar, class: "ui top aligned tiny image" %>
-          </td>
           <% @fields.each do |field| %>
-
             <td>
               <%= obj[field] %>
             </td>
           <% end %>
           <td class="ui center aligned">
-
-
-						<%= link_to customer_path(obj.id) do %>
-							<i class="eye icon"></i>
-						<% end %>
-            <%= link_to edit_customer_path(obj.id) do %>
+            <%= link_to edit_loan_path(obj.id) do %>
               <i class="edit icon"></i>
             <% end %>
-            <%= link_to customer_path(id: obj.id, archive: true), method: :delete, data: {confirm: 'Are you sure?'} do %>
+            <%= link_to loan_path(id: obj.id, archive: true), method: :delete, data: {confirm: 'Are you sure?'} do %>
               <i class="archive icon"></i>
             <% end %>
-            <%= link_to customer_path(obj.id), method: :delete, data: {confirm: 'Are you sure?'} do %>
+            <%= link_to loan_path(obj.id), method: :delete, data: {confirm: 'Are you sure?'} do %>
               <i class="trash icon"></i>
             <% end %>
           </td>
@@ -48,9 +37,9 @@
   </tbody>
   <tfoot>
     <tr>
-      <th colspan="13">
+      <th colspan="7">
         <%= render 'shared/per_page' %>
-        <%= render 'shared/pagination', records: @customers %>
+        <%= render 'shared/pagination', records: @loans %>
       </th>
     </tr>
   </tfoot>

@@ -7,6 +7,7 @@ class AttributeOption < ApplicationRecord
   has_many :attribute_option_values, -> { where(archived: false)}
   accepts_nested_attributes_for :attribute_option_values
 
+	has_and_belongs_to_many :collateral_types
 
   validates :name, presence: true, uniqueness: true
 

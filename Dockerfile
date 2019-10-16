@@ -33,7 +33,7 @@ WORKDIR /app
 COPY Gemfile Gemfile.lock ./
 RUN gem install bundler && bundle install --jobs 20 --retry 5
 # first time
-# Run bundle update
+Run bundle install
 
 # Copy the main application.
 COPY . ./

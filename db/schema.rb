@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_30_040937) do
+ActiveRecord::Schema.define(version: 2019_10_07_111659) do
 
   create_table "accounts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "rountine_number"
@@ -41,8 +41,20 @@ ActiveRecord::Schema.define(version: 2019_09_30_040937) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
+  create_table "activities", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+    t.text "payload"
+    t.string "icon"
+    t.integer "customer_id"
+    t.integer "activitable_id"
+    t.string "activitable_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
+    t.integer "customer_id"
     t.boolean "archived", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -70,6 +82,13 @@ ActiveRecord::Schema.define(version: 2019_09_30_040937) do
     t.boolean "archived", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "attribute_options_collateral_types", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "collateral_type_id", null: false
+    t.bigint "attribute_option_id", null: false
+    t.index ["attribute_option_id", "collateral_type_id"], name: "idx_collateral_type_id_onattribute_option_id", unique: true
+    t.index ["collateral_type_id", "attribute_option_id"], name: "idx_collateral_type_id_on_attribute_option_id", unique: true
   end
 
   create_table "attribute_options_collaterals", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -117,6 +136,32 @@ ActiveRecord::Schema.define(version: 2019_09_30_040937) do
     t.string "ssn"
     t.boolean "archived", default: false
     t.string "phone"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "line_items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+    t.boolean "archived", default: false
+    t.decimal "amount", precision: 30, scale: 5, default: "0.0"
+    t.text "custom_field"
+    t.string "status", default: "cart", null: false
+    t.string "financial_status", default: "pending", null: false
+    t.integer "collateral_id"
+    t.integer "loan_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "loans", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.decimal "total_amount", precision: 30, scale: 5, default: "0.0"
+    t.string "currency", limit: 3, default: "USD"
+    t.string "status"
+    t.string "financial_status"
+    t.datetime "payoff"
+    t.boolean "archived", default: false
+    t.integer "customer_id"
+    t.string "original_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

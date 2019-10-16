@@ -1,0 +1,162 @@
+<div class="ui grid">
+	<div class="two column  row">
+		<div class="eleven wide column">
+
+
+			<div class="ui card width-100">
+			  <div class="content">
+			    <div class="header">Timelines</div>
+					<hr>
+			    <!-- <div class="meta">2 days ago</div> -->
+			    <div class="description">
+			    </div>
+			  </div>
+			</div>
+
+			<div class="ui card width-100">
+			  <div class="content">
+			    <div class="header">Account</div>
+			    <!-- <div class="meta">2 days ago</div> -->
+			    <div class="description">
+						<div class="ui form">
+						  <div class="two fields">
+						    <div class="field">
+						      <label>Rountine number</label>
+						      <input placeholder="Rountine number" type="text">
+						    </div>
+						    <div class="field">
+						      <label>Account number</label>
+						      <input placeholder="Account number" type="text">
+						    </div>
+						  </div>
+						</div>
+			    </div>
+			  </div>
+			</div>
+		</div>
+		<div class="four wide column">
+			<div class="ui card width-100">
+			  <div class="content">
+			    <!-- <div class="header centered">Avatar</div> -->
+			    <!-- <div class="meta">2 days ago</div> -->
+			    <div class="description">
+						<div class="ui form">
+						    <div class="field">
+									<%= image_tag 'profile.svg', class: "ui medium  centered circular image" %>
+
+						    </div>
+						</div>
+
+			    </div>
+			  </div>
+			</div>
+
+			<div class="ui card width-100">
+			  <div class="content">
+			    <div class="header">Customer Information</div>
+					<hr>
+			    <!-- <div class="meta">2 days ago</div> -->
+			    <div class="description">
+						<a class="header"><%= "#{@customer.first_name } #{@customer.last_name }" %></a>
+						<div class="meta">
+							<span class="date">Joined in <%= "#{@customer.created_at.strftime("%Y") }" %></span>
+						</div>
+						<div class="description">
+							<a class="header"><%= "#{@customer.email }" %></a>
+							Kristy is an art director living in New York.
+						</div>
+			    </div>
+			  </div>
+			</div>
+
+			<div class="ui card width-100">
+				<div class="content">
+					<div class="header">Activities</div>
+					<hr>
+					<!-- <div class="meta">2 days ago</div> -->
+					<div class="description">
+						<div class="ui feed">
+							<% @activities.each do |key, values| %>
+								<%= key %>
+							<% values.each do |activity| %>
+
+								<div class="event">
+									<div class="label">
+										<i class="<%= activity.icon %> icon"></i>
+									</div>
+									<div class="content">
+										<div class="summary">
+											<a class="user">
+												<%#= activity.name %>
+											</a> <%= activity.name %>
+											<div class="date">
+												<%= activity.created_at.strftime("%I:%M:%S %p")  %>
+												<%= distance_of_time_in_words(activity.created_at, activity.created_at + 1.minutes)   %>
+											</div>
+										</div>
+
+									</div>
+								</div>
+								<% end %>
+							<% end %>
+							<% from_time = Time.now %>
+
+							<div class="event">
+								<div class="label">
+									<i class="user icon"></i>
+								</div>
+								<div class="content">
+									<div class="summary">
+										<a class="user">
+											Fateh Singh
+										</a> created
+										<div class="date">
+											1 Hour Ago
+										</div>
+									</div>
+
+								</div>
+							</div>
+							<div class="event">
+								<div class="label">
+									<!-- <img src="/images/avatar/small/helen.jpg"> -->
+									<i class="money bill alternate icon"></i>
+
+								</div>
+								<div class="content">
+									<div class="summary">
+										<a>$1,000</a> Aprroved <a>2 Success</a>
+										<div class="date">
+											4 days ago
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="event">
+								<div class="label">
+									<!-- <img src="/images/avatar/small/jenny.jpg"> -->
+									<i class="car icon"></i>
+
+								</div>
+								<div class="content">
+									<div class="summary">
+										<a class="user">
+											Audi
+										</a> car loan approved
+										<div class="date">
+											2 Days Ago
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>

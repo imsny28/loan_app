@@ -21,7 +21,17 @@
         <%= f.label "Collaterals" %>
         <%= f.select(
           :collateral_ids,
-          Collateral.all.collect {|p| [ p.display_name, p.id ] if p.collateral_type_id.nil? },
+          Collateral.all.collect {|p| [ p.display_name, p.id ] },
+          { prompt: "Please select"},
+          { multiple: true, class: 'ui fluid search dropdown' }
+        )%>
+      </div>
+
+			<div class="field">
+        <%= f.label :attribute_options %>
+        <%= f.select(
+          :attribute_option_ids,
+          AttributeOption.all.collect {|p| [ p.display_name, p.id ] },
           { prompt: "Please select"},
           { multiple: true, class: 'ui fluid search dropdown' }
         )%>

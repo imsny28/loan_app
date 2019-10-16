@@ -7,11 +7,13 @@
   <%= link_to "Collaterals", collaterals_path, class: "item"  -%>
   <%= link_to "Collateral Types", collateral_types_path, class: "item"  -%>
   <%= link_to "Attachments", attachments_path, class: "item"  -%>
+	<%= link_to "Loans", loans_path, class: "item"  -%>
+
 
   <div class="right menu">
     <div class="ui dropdown item" tabindex="0">
-      fateh
-      <i class="dropdown icon"></i>
+			<%= image_tag 'profile.svg', class: "ui avatar  image" %>
+			<span>Fateh Singh</span>
       <div class="menu" tabindex="-1">
         <div class="item">User</div>
         <div class="item">Customer</div>

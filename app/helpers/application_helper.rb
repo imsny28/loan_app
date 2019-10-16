@@ -61,6 +61,3 @@ module ApplicationHelper
 		country_state_hash
 	end
 end
-
-
-rails generate model Loan amount:decimal currency:string status:string payoff: 

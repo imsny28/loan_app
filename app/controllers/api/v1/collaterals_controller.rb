@@ -1,4 +1,4 @@
-class CollateralsController < ApplicationController
+class Api::V1::CollateralsController < ApplicationController
   include Response
 
   def index
@@ -67,12 +67,22 @@ class CollateralsController < ApplicationController
     success_response_to_delete collaterals_path, msg
   end
 
-	
+	def collateral_attributes
+		@collateral = Collateral.find(params[:id])
+		attribute_options = @collateral.attribute_options
+		render json: { records: attribute_options.as_json(root: false) }
+	end
+
+	def calculate_collateral_value
+		@collateral = Collateral.find_by(id: params[:id])
+		render json: { price: collateral.price }
+	end
+
 
   private
   def collateral_params
     params.require(:collateral).permit(
-      :name, :display_name, :collateral_type_id, :cost_price,
+      :name, :display_name, :collertal_value, :cost_price,  :collateral_type_id,
       attribute_option_ids: [], attribute_option_value_ids: []
     )
   end
