@@ -23,3 +23,9 @@ class String
 		/\A[-+]?\d+\z/ === self
 	end
 end
+
+class Hash
+  def has_blank?
+    self.values.any?{|v| v.nil? || v.length == 0}
+  end
+end

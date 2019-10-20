@@ -24,6 +24,7 @@ Rails.application.routes.draw do
 			resources :countries do
 				get :countries_with_states, on: :collection
 			end
+			resources :loans
     end
   end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

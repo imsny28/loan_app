@@ -21,3 +21,9 @@ customers:
   - "first_name"
   - "last_name"
   - "created_at"
+
+loans:
+  - "id"
+  - "status"
+  - "total_amount"
+  - "financial_status"

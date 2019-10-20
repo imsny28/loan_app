@@ -74,8 +74,11 @@ class Api::V1::CollateralsController < ApplicationController
 	end
 
 	def calculate_collateral_value
-		@collateral = Collateral.find_by(id: params[:id])
-		render json: { price: collateral.price }
+		collateral = Collateral.find_by(
+			id: params[:id],
+			collateral_type_id: params[:collateral_type_id]
+		)
+		render json: { price: collateral.cost_price, alert: "You're qualified for loan ammount " }
 	end
 
 

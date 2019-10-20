@@ -44,5 +44,4 @@ class Api::V1::AttributeOptionsController < ApplicationController
       ]
     )
   end
-
 end

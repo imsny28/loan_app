@@ -1,5 +1,5 @@
-class LoansController < ApplicationController
-	include  Response
+class Api::V1::LoansController < ApplicationController
+	include ResponseApi
 
   def index
 		session[:per_page_value] ||= 15
@@ -8,7 +8,7 @@ class LoansController < ApplicationController
 
     @loans = Loan.where(archived: false)
     @loans = @loans.page(params[:page]).per(@per_page)
-
+		render json: { records: @loans.as_json(root: false) }
     if CUSTOM_FIELDS["loans"].present?
       @fields = CUSTOM_FIELDS["loans"]
     else
@@ -23,41 +23,34 @@ class LoansController < ApplicationController
 	def create
 		loan_params_only = loan_params.as_json.except("customer", "account_detail", "line_item")
 		customer_params = loan_params["customer"].as_json
-		account_detail = loan_params["account_detail"].as_json
+		account_params = loan_params["account_detail"].as_json
 		line_item_params = loan_params["line_item"].as_json
 
-		# TODO:- Remember in future API
-		# return failure_response_to_post(new_loan_path) if customer_params.has_blank?
+		return failure_response_to_post( {errors: "Customer Information is not present "} ) if customer_params.has_blank?
+		return failure_response_to_post( {errors: "Account Detail is not present "} ) if account_params.has_blank?
+		return failure_response_to_post( {errors: "Line Items is not present "} ) if line_item_params.has_blank?
 
-		@loan = Loan.new(loan_params_only)
+		loan = Loan.new( loan_params_only )
 
-		customer = Customer.find_by(email: customer_params["email"])
+		customer = Customer.find_by( email: customer_params["email"] )
 		unless customer
-			customer = Customer.new(customer_params)
-			unless customer.save
-				# error
-				# failure_response_to_post customer.errors, new_loan_path
-				return
-			end
-		else
-
+			customer = Customer.new( customer_params )
+			return failure_response_to_post( customer.errors ) unless customer.save
 		end
-		# unless customer.save
-		# 	# error
-		# 	failure_response_to_post customer.errors, new_loan_path
-		# 	return
-		# end
 
-		# return failure_response_to_post( customer.errors, new_loan_path )  unless customer.save
-		@loan.customer_id = customer.id
+		account = Account.find_by( rountine_number: account_params["rountine_number"] )
+		unless account
+			account = Account.new(account_params)
+			account.customer_id = customer.id
+			return failure_response_to_post( customer.errors ) unless account.save
+		end
 
-		# @loan.customer_id = 3
-		@loan.build_line_item(line_item_params)
-		if @loan.save
-			success_response_to_post @loan, loans_path, "loan created successfully."
+		loan.customer_id = customer.id
+		loan.build_line_item( line_item_params )
+		if loan.save
+			success_response_to_post loan
 		else
-			# error
-			failure_response_to_post @loan.errors, new_loan_path
+			failure_response_to_post loan.errors
 		end
 	end
 

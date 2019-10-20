@@ -1,2 +1,106 @@
-<h1>Loans#show</h1>
-<p>Find me in app/views/loans/show.html.erb</p>
+<div class="ui three column stackable grid">
+  <div class="column">
+		<div class="ui card">
+		  <div class="content">
+		    <div class="header">Loan</div>
+		  </div>
+		  <div class="content">
+		    <div class="ui small feed">
+		      <div class="event">
+		        <div class="content">
+		          <div class="summary">
+		            <p>Total Amount: <%= @loan.total_amount%></p>
+								<p>currency: <%= @loan.currency%></p>
+								<p>Status: <%= @loan.status%></p>
+								<p>Financial Status: <%= @loan.financial_status%></p>
+								<p>Payoff: <%= @loan.payoff%></p>
+		          </div>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+  </div>
+  <div class="column">
+		<div class="ui card">
+		  <div class="content">
+		    <div class="header">collateral</div>
+		  </div>
+		  <div class="content">
+		    <h4 class="ui sub header"><%= @loan.line_item.name%></h4>
+		    <div class="ui small feed">
+		      <div class="event">
+		        <div class="content">
+		          <div class="summary">
+		             <!-- <a>Elliot Fu</a> added <a>Jenny Hess</a> to the project -->
+		          </div>
+		        </div>
+		      </div>
+		      <div class="event">
+		        <div class="content">
+		          <div class="summary">
+		             <span>Financial Status:	<%= @loan.line_item.financial_status %></span>
+		          </div>
+		        </div>
+		      </div>
+		      <div class="event">
+		        <div class="content">
+		          <div class="summary">
+		             <h3 class="ui sub header"> Attribute Option</h3>
+								 <div class="">
+										<% @loan.line_item.custom_field.keys.each do |key| %>
+										<div><%= "#{ key }: #{ @loan.line_item.custom_field[key] }" %></div>
+										<% end %>
+								 </div>
+		          </div>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+  </div>
+  <div class="column">
+
+		<div class="ui card">
+		  <div class="content">
+		    <div class="header">Customer info</div>
+		  </div>
+		  <div class="content">
+		    <h4 class="ui sub header">
+					<%= " #{ @loan.customer.first_name }  #{@loan.customer.last_name}"  %>
+		    </h4>
+		    <div class="ui small feed">
+		      <div class="event">
+		        <div class="content">
+		          <div class="summary">
+		            <span><i class="envelope icon"></i><%=  @loan.customer.email %></span>
+		          </div>
+		        </div>
+		      </div>
+		      <div class="event">
+		        <div class="content">
+		          <div class="summary">
+								<div> <i class="home icon"></i> <%=  @loan.customer.address %>
+									<div >
+										<%=  @loan.customer.apartment %>
+										<%=  @loan.customer.state %>
+										<%=  @loan.customer.city %>
+										<%=  @loan.customer.zip_code %>
+									</div>
+								</div>
+		          </div>
+		        </div>
+		      </div>
+		      <div class="event">
+		        <div class="content">
+		          <div class="summary">
+								<div><i class="hand point right icon"></i> SSN: <%=  @loan.customer.ssn %></div>
+							 	<div><i class="phone volume icon"></i> <%=  @loan.customer.phone %></div>
+		          </div>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+  </div>
+</div>

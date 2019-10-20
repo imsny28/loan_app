@@ -9,6 +9,14 @@ class CreateLoans < ActiveRecord::Migration[5.2]
 			t.boolean :archived, default: false
 			t.integer :customer_id
 			t.string :original_id
+
+			# NOTE: Think later
+			# t.string :collateral_name
+			# t.string :collateral_type
+			# t.string :properties
+			# t.string :status, default: 'cart', null: false
+			# t.string :financial_status, default: 'pending', null: false
+
 			#t.string :cancel_reason
 			#t.datetime :cancelled_at
 			#t.string :tag

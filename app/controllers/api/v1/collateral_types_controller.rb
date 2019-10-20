@@ -6,10 +6,12 @@ class Api::V1::CollateralTypesController < ApplicationController
     session[:per_page_value] = params[:per_page].to_i if params[:per_page].present?
     @per_page = session[:per_page_value]
 
-    @collateral_types = CollateralType.where(archived: false)
-    @collateral_types = @collateral_types.page(params[:page]).per(@per_page)
+    collateral_types = CollateralType.where(archived: false)
+    collateral_types = collateral_types.page(params[:page]).per(@per_page)
 
-		render json: { records: @collateral_types.as_json(root: false) }
+		render json: {
+			records: collateral_types.as_json(root: false)
+		}
     # if CUSTOM_FIELDS["collateral_types"].present?
     #   @fields = CUSTOM_FIELDS["collateral_types"]
     # else
@@ -18,22 +20,22 @@ class Api::V1::CollateralTypesController < ApplicationController
   end
 
   def create
-    @collateral_type = CollateralType.new(collateral_type_params)
-    if @collateral_type.save
-      success_response_to_post @collateral_type, collateral_types_path, "Collateral Type created successfully."
+    collateral_type = CollateralType.new(collateral_type_params)
+    if collateral_type.save
+      success_response_to_post collateral_type, collateral_types_path, "Collateral Type created successfully."
 
     else
-      failure_response_to_post @collateral_type.errors, new_collateral_type_path
+      failure_response_to_post collateral_type.errors, new_collateral_type_path
     end
   end
 
   def edit
-    @collateral_type = CollateralType.find_by(id: params[:id])
+    collateral_type = CollateralType.find_by(id: params[:id])
   end
 
   def new
-    @collateral_type = CollateralType.new
-    @collateral_type.collaterals.build
+    collateral_type = CollateralType.new
+    collateral_type.collaterals.build
   end
 
   def update
@@ -73,7 +75,7 @@ class Api::V1::CollateralTypesController < ApplicationController
 				only: [:id, :display_name, :name],
 				include: {
 					attribute_option_values: {
-						only: [:id, :display_name]
+						only: [:id, :display_name, :name]
 					}
 				}
 			)

@@ -168,11 +168,8 @@
 				    </div>
 				  </div>
 				</div>
-
 			</div>
 		</div>
-
-
 	</div>
 
 
@@ -229,9 +226,7 @@
 		  },
 			methods: {
 				dropdown(){
-
-		       $('.ui.dropdown').dropdown();
-
+	       	$('.ui.dropdown').dropdown();
 		    },
 
 				getAttributes(event) {
@@ -350,7 +345,6 @@
 								</select>
 							</div>
 
-
 							<div class="field" v-if="collaterals.length > 0">
 								<label>Collaterals: </label>
 								<select
@@ -365,11 +359,6 @@
 									>{{ collateral.display_name }}</option>
 								</select>
 							</div>
-							<collateral-component
-								:records = 'collaterals'
-								:label="'Collaterals'"
-								v-if="collaterals.length > 0"
-							></collateral-component>
 							<attribute-component
 								v-for="attribute_option in attribute_options"
 								:key="attribute_option.id"

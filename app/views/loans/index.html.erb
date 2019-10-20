@@ -21,7 +21,10 @@
             </td>
           <% end %>
           <td class="ui center aligned">
-            <%= link_to edit_loan_path(obj.id) do %>
+						<%= link_to loan_path(obj.id) do %>
+							<i class="eye icon"></i>
+						<% end %>
+            <% link_to edit_loan_path(obj.id) do %>
               <i class="edit icon"></i>
             <% end %>
             <%= link_to loan_path(id: obj.id, archive: true), method: :delete, data: {confirm: 'Are you sure?'} do %>
